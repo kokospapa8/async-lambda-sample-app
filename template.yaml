@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sample-app
+  Sample SAM Template for sample-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  SampleAppFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: sample_app/
+      DeadLetterQueue:
+        Type: SNS
+        TargetArn: arn:aws:sns:<region>:<account_id>:sample-dlq
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Description: sample lambda
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 60
+        MaximumRetryAttempts: 2
+      FunctionName: SampleApp
+      Role: arn:aws:iam::<account_id>:role/sample_lambda_execution_role
+      Environment:
+        Variables:
+          S3_BUCKET_PARAM: "/SAMPLE/BUCKET"
+#      VpcConfig:
+#        SecurityGroupIds:
+#          - sg-<>
+#        SubnetIds:
+#          - subnet-<>
+
+
+Outputs:
+  SampleAppFunction:
+    Description: "Sample app Function ARN"
+    Value: !GetAtt SampleAppFunction.Arn
