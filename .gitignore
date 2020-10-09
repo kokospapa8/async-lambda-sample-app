@@ -243,6 +243,7 @@ $RECYCLE.BIN/
 
 **/.idea/workspace.xml **/.idea/tasks.xml
 **/.idea/vcs.xml
+.idea/vcs.xml
 
 template_temp.yaml
 .aws-sam
