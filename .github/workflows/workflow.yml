@@ -23,5 +23,14 @@ jobs:
 
     - name: Build, and deploy
       run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+        brew --version
+        brew tap aws/tap
+        brew install aws-sam-cli
+        sam --version
+
         sam build
         sam deploy --stack-name sample-app --region ap-northeast-2 -t .aws-sam/build/template.yaml --capabilities CAPABILITY_IAM --no-confirm-changeset --s3-bucket aws-sam-cli-managed-default-samclisourcebucket-fdwl3buruuk1
