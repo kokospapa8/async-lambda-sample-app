@@ -1,7 +1,8 @@
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Test'
 
 name: Lambda deployment
 jobs:
